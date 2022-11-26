@@ -1,22 +1,54 @@
-import axios from "axios";
-const baseUrl = "/api/blogs";
-let config = {};
+import axios from 'axios'
+const baseUrl = '/api/blogs'
+let config = {}
 
 const setToken = (newToken) => {
   config = {
     headers: { Authorization: newToken },
-  };
-};
+  }
+}
 
 const getAll = async () => {
-  const request = await axios.get(baseUrl, config);
-  const data= request.data;
-  return data;  
-};
+  const response = await axios.get(baseUrl, config)
+  const data = response.data
+  return data
+}
+
+const getById = async (id) => {
+  const response = await axios.get(`${baseUrl}/${id}`, config)
+  const data = response.data
+  return data
+}
+
+const update = async (blog) => {
+  const response = await axios.put(`${baseUrl}/${blog.id}`, blog, config)
+  return response.data
+}
 
 const create = async (blog) => {
-  const response = await axios.post(baseUrl, blog, config);
-  return response.data;
-};
+  const response = await axios.post(baseUrl, blog, config)
+  return response.data
+}
 
-export default { setToken, getAll, create };
+const remove = async (id) => {
+  const response = await axios.delete(`${baseUrl}/${id}`, config)
+  return response.data
+}
+
+const sortByLikes = async (blogs) => {
+  const compareFn = (a, b) => {
+    return b.likes - a.likes
+  }
+  blogs = blogs.sort(compareFn)
+  return blogs
+}
+
+export default {
+  setToken,
+  getAll,
+  create,
+  getById,
+  update,
+  remove,
+  sortByLikes,
+}
