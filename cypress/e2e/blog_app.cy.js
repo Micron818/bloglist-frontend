@@ -104,7 +104,7 @@ describe('Blog app', function () {
         cy.get('@blog0').should('not.contain', 'remove')
       })
 
-      it.only('blogs sort by likes desc', function () {
+      it('blogs sort by likes desc', function () {
         cy.get('.blog').eq(1).as('blog1')
         cy.get('@blog1').contains('show').click()
         cy.get('@blog1').contains('like').click().then(()=>{
