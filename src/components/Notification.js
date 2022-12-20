@@ -1,7 +1,10 @@
 import PropTypes from 'prop-types'
-const Notification = ({ messageObj }) => {
-  if (!messageObj) return
+import { useSelector } from 'react-redux'
+const Notification = () => {
+  const messageObj = useSelector(({ notification }) => notification.message)
+
   const { type, message } = { ...messageObj }
+
   return (
     <div className={type}>
       {type}: {message}

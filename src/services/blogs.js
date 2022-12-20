@@ -43,7 +43,7 @@ const sortByLikes = async (blogs) => {
   return blogs
 }
 
-export default {
+const blogServices = {
   setToken,
   getAll,
   create,
@@ -52,3 +52,5 @@ export default {
   remove,
   sortByLikes,
 }
+
+export default blogServices

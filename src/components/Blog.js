@@ -1,10 +1,7 @@
 import { useState } from 'react'
-import PropTypes from 'prop-types'
 import BlogContent from './BlogContent'
-import blogService from '../services/blogs'
 
-const Blog = ({ initBlog, removeBlog, user }) => {
-  const [blog, setBlog] = useState(initBlog)
+const Blog = ({ blog }) => {
   const [visbleContent, setVisibleContent] = useState(false)
   const blogStyle = {
     paddingTop: 10,
@@ -15,14 +12,6 @@ const Blog = ({ initBlog, removeBlog, user }) => {
   }
 
   const buttonLabel = visbleContent ? 'hide' : 'show'
-
-  const handleAddLike = async () => {
-    const updatedBlog = await blogService.update({
-      id: blog.id,
-      likes: blog.likes + 1,
-    })
-    setBlog({ ...blog, likes: updatedBlog.likes })
-  }
 
   return (
     <div style={blogStyle} className="blog">
@@ -36,17 +25,11 @@ const Blog = ({ initBlog, removeBlog, user }) => {
       {visbleContent && (
         <BlogContent
           blog={blog}
-          removeBlog={removeBlog}
-          user={user}
-          handleAddLike={handleAddLike}
+          // user={user}
         />
       )}
     </div>
   )
-}
-
-Blog.propTypes = {
-  blog: PropTypes.shape({ title: PropTypes.string, author: PropTypes.string }),
 }
 
 export default Blog
