@@ -13,7 +13,7 @@ const loginSlice = createSlice({
       const user = action.payload
       blogServices.setToken(user.token)
       state.user = user
-      state.message = { type: 'note', message: 'login and got all blogs' }
+      state.message = { type: 'note', message: `${user.name}logedin` }
     },
 
     logout(state, action) {

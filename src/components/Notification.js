@@ -5,11 +5,7 @@ const Notification = () => {
 
   const { type, message } = { ...messageObj }
 
-  return (
-    <div className={type}>
-      {type}: {message}
-    </div>
-  )
+  return <div className={type}>{message}</div>
 }
 
 Notification.propTypes = {

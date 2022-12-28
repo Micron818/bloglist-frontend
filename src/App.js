@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
@@ -7,10 +7,12 @@ import BlogForm from './components/BlogForm'
 import BlogList from './components/BlogList'
 import { useDispatch, useSelector } from 'react-redux'
 import { login, logout } from './reducers/loginReducer'
-import { createBlog } from './reducers/blogReducer'
 import { setMessage } from './reducers/notificationReducer'
+import { Link, Route, Routes } from 'react-router-dom'
+import Users from './components/Users'
+import User from './components/User'
+import Blog from './components/Blog'
 const App = () => {
-
   const dispatch = useDispatch()
 
   const user = useSelector(({ login }) => login.user)
@@ -30,32 +32,38 @@ const App = () => {
     dispatch(setMessage(blogMessage))
   }, [blogMessage])
 
-  const blogFormRef = useRef()
-
-  const addBlog = (blog) => {
-    blogFormRef.current.toggleVisibility()
-    dispatch(createBlog(blog))
-  }
+  const padding = { padding: 5 }
 
   return (
     <div>
-      <h1>Notes</h1>
-      <Notification />
-      {user ? (
-        <div>
-          {user.name} logged in
-          <button onClick={() => dispatch(logout())}>Logout</button>
-          <Togglable buttonLabel="new Blog" ref={blogFormRef}>
-            <BlogForm createBlog={addBlog} />
+      <div>
+        <Link style={padding} to="/">
+          blogs
+        </Link>
+        <Link style={padding} to="/users">
+          users
+        </Link>
+        {user ? (
+          <>
+            {user.name} logged in
+            <button onClick={() => dispatch(logout())}>Logout</button>
+          </>
+        ) : (
+          <Togglable buttonLabel="login">
+            <LoginForm />
           </Togglable>
-        </div>
-      ) : (
-        <Togglable buttonLabel="login">
-          <LoginForm />
-        </Togglable>
-      )}
+        )}
+      </div>
+      <h1>Blogs</h1>
+      <Notification />
 
-      <BlogList />
+      <Routes>
+        <Route path="/users/:id" element={<User />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/blogs/:id" element={<Blog />} />
+        <Route path="/blogs/new" element={<BlogForm />} />
+        <Route path="/" element={<BlogList />} />
+      </Routes>
     </div>
   )
 }

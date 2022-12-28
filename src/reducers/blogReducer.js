@@ -71,11 +71,19 @@ const updateBlog = (blog) => {
   return async (dispatch) => {
     const updatedBlog = await blogServices.update({
       ...blog,
-      user: blog.user.id,
+      user: blog.user ? blog.user.id : null,
     })
     dispatch(blogSlice.actions.updateBlog(updatedBlog))
   }
 }
 
-export { getAll, createBlog, updateBlog, removeBlog }
+const addComment = (blog, comment) => {
+  return async (dispatch) => {
+    const comments = await blogServices.addComment(blog.id, comment)
+    const updatedBlog = { ...blog, comments }
+    dispatch(blogSlice.actions.updateBlog(updatedBlog))
+  }
+}
+
+export { getAll, createBlog, updateBlog, removeBlog, addComment }
 export default blogSlice.reducer

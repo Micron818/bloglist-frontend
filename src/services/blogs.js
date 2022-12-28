@@ -43,6 +43,17 @@ const sortByLikes = async (blogs) => {
   return blogs
 }
 
+const addComent = async (id, comment) => {
+  const response = await axios.put(
+    `${baseUrl}/${id}/comments`,
+    { comment },
+    config
+  )
+  const comments = response.data.comments
+  comments.push(comment)
+  return comments
+}
+
 const blogServices = {
   setToken,
   getAll,
@@ -51,6 +62,7 @@ const blogServices = {
   update,
   remove,
   sortByLikes,
+  addComment: addComent,
 }
 
 export default blogServices
